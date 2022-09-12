@@ -48,13 +48,12 @@ export default class Main extends Component {
         // evaluate whether register or login form should be displayed depending on formSwitcher boolean stored in state, assign the appropriate form in a constant
         const display = !this.state.formSwitcher ? <Login /> : <Register />;
 
-        return (
-            <>
-                {
-                // if user state is falsy, that means user has not been authenticated, so display the sign in / register components 
-                }
+        // if user state is falsy, that means user has not been authenticated, so display the sign in / register components 
+        if (!this.state.user) {
+            return (
+                <>
                     {/* import forms into mainblock with styling*/}
-                    (<div className='mainBlock'>
+                    <div className='mainBlock'>
                         {/* render either login or register form depending on formSwitcher boolean saved in state */}
                         {display}
                         {!this.state.formSwitcher ?
@@ -73,7 +72,17 @@ export default class Main extends Component {
                             </span>)
                         }
                     </div>
-            </>
-        );
+                </>
+            )
+        }
+        // otherwise, display the tracker component when user has been authenticated
+        // this will be the main application
+        else {
+            return (
+                <>
+                    <Tracker />
+                </>
+            );
+        }
     }
 }
