@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 // import styling for this component
 import './Main.css';
-import { app, auth } from '/src/config/Fire.js'
+import { auth } from '/src/config/Fire.js'
 import Login from './Forms/Login'
 import Register from './Forms/Register'
-import Tracker from './Tracker/Tracker.js'
+import Dashboard from './Dashboard/Dashboard.js'
+import Spinner from '../assets/spinner.gif'
 
 // export this class so it can be imported in to App.js
 export default class Main extends Component {
@@ -48,6 +49,16 @@ export default class Main extends Component {
         // evaluate whether register or login form should be displayed depending on formSwitcher boolean stored in state, assign the appropriate form in a constant
         const display = !this.state.formSwitcher ? <Login /> : <Register />;
 
+        // implement a spinner to make sure login page displays until user is fully authenticated (prevents display from peeking through during refresh)
+        if (this.state.user === 1) {
+            return (
+                <div className='mainBlock'>
+                    <div className='Spinner'>
+                        <img src={Spinner} alt='Spinner' className='imgSpinner'></img>
+                    </div>
+                </div>
+            )
+        }
         // if user state is falsy, that means user has not been authenticated, so display the sign in / register components 
         if (!this.state.user) {
             return (
@@ -78,11 +89,7 @@ export default class Main extends Component {
         // otherwise, display the tracker component when user has been authenticated
         // this will be the main application
         else {
-            return (
-                <>
-                    <Tracker />
-                </>
-            );
+           return <Dashboard />
         }
     }
 }
