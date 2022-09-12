@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './Login.css'
-import { auth } from '/src/config/Fire.js'
+import { app, auth } from '/src/config/Fire.js'
 
 function Register() {
   // declare state
@@ -28,22 +28,22 @@ function Register() {
     setPassword(e.target.value);
   }
 
-  const register = e => {
+  const register = async (e) => {
     // prevent page from being reloaded when button is clicked
     e.preventDefault();
-    auth.createUserWithEmailAndPassword(
-        ({email}, {password}))
-        // returns a promise with data from firebase
-        .then((user) => {
-            // store current user by accessing the currentUser property on the object returned by firebase
-            const currentUser = fire.auth().currentUser;
-            currentUser.updateProfile({
-                displayName: {displayName}
-            })
-        }).catch(err => setFireErrors(err.message))
+    try {
+        const userCredentials = await auth.createUserWithEmailAndPassword(email, password);
+        }
+    catch (e) {
+
+        if (e.code == 'auth/weak-password') setFireErrors('The password provided is too weak.');
+        else if (e.code == 'auth/invalid-email') setFireErrors('Please enter a valid email.');
+        else if (e.code =='email-already-in-use') setFireErrors('An account already exists with that email address');
+        else setFireErrors(e.message)
+    }
   }
   // if there is an error message, store it in a const to be displayed, otherwise display null\
-  let errorNotification = fireErrors ? (<div className="Error">Please enter a valid username/email/password combination</div>) : null;
+  let errorNotification = fireErrors ? (<div className="Error">{fireErrors}</div>) : null;
   // within return statement below, everything will automatically render
   return (
     <>

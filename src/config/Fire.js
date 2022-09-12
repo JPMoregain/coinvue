@@ -14,8 +14,10 @@ const config = {
   measurementId: "G-FKYQN6PCN9"
 };
 
-// Initialize firebase
+// Initialize firebase app
 const app = firebase.initializeApp(config);
+// Initialize auth and database
+const auth = app.auth();
+const db = app.firestore();
 
-export const auth = firebase.auth();
-export default app;
+export { app, db, auth }
