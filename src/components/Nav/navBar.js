@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { auth } from '/src/config/Fire.js'
 import { Spin as Hamburger } from 'hamburger-react'
+import Logo from './logo.png'
 import './navBar.css';
 
 export default function NavBar() {
@@ -15,14 +16,15 @@ export default function NavBar() {
 
   return (
     <nav className='navBar'>
-      <a href='/' className='brand-name'>CoinVue</a>
+      <a href='/' className='brand-name'><img src={Logo} /></a>
       <div className='hamburger' onClick={() => {
         // when hamburger icon is clicked, change state
         setIsNavExpanded(!isNavExpanded)
       }}>
         <Hamburger />
       </div>
-      <div className='nav-menu'>
+      <div className={
+        isNavExpanded ? 'nav-menu expanded' : 'nav-menu'}>
         <ul>
           <li>
             <Link to='/bitcoin'>Bitcoin</Link>
@@ -35,7 +37,7 @@ export default function NavBar() {
           </li>
         </ul>
       </div>
-      <button onClick={logout}>Log Out</button>
+      <button className='logout' onClick={logout}>Log Out</button>
     </nav>
   )
 }
