@@ -34,6 +34,14 @@
     .nav-menu.expanded ul li {
         display: block;
     }
+    .selectCurrency {
+        display: none;
+    }
+    .selectCurrency.collapsed {
+        display: block;
+        position: absolute;
+        right: 140px;
+    }
 }
 
 @media screen and (min-width: 768px) {
@@ -58,6 +66,10 @@
     color: black;
     font-size: 1.3rem;
     margin-left: 1rem;
+}
+
+.brand-name img {
+    height: 50px;
 }
 
 .hamburger {
@@ -105,3 +117,7 @@
     filter: brightness(115%);
 }
 
+.selectCurrency {
+    position: absolute;
+    right: 340px;
+}
