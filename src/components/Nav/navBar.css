@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* create media queries to handle different screen sizes and shrink/expand the nav bar accordingly */
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+}
+
+.navBar {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 2px 2px 2px rgba(9, 9, 9, 0.23);
+    background-color: #fff;
+    align-items: center;
+}
+
+.nav-menu ul {
+    display: flex;
+    padding: 0;
+}
+
+.nav-menu li {
+    /* removes default disc bullet for li tags and applies margin to left & right side */
+    list-style-type: none;
+    margin: 0 1rem;
+    text-decoration: none;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    color: inherit;
+}
+

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 // import styling for this component
 import './Main.css';
 import { auth } from '/src/config/Fire.js'
-import Login from './Forms/Login'
-import Register from './Forms/Register'
-import Dashboard from './Dashboard/Dashboard.js'
+import Login from './Forms/login'
+import Register from './Forms/register'
+import Dashboard from './Dashboard/dashboard.js'
 import Spinner from '../assets/spinner.gif'
 
 // export this class so it can be imported in to App.js

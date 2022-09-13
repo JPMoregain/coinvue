@@ -2,9 +2,10 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
+    mode: process.env.NODE_ENV,
     entry: './src/index.js',
     output: {
-        path: path.join(__dirname, '/dist'),
+        path: path.resolve(__dirname, 'build'),
         filename: 'bundle.js'
     },
     plugins: [
@@ -37,5 +38,9 @@ module.exports = {
                 loader: 'url-loader',
               }
         ]
-    }
+    },
+    // UNCOMMENT PROXY AND CONFIGURE ONCE BACKEND IS CONNECTED
+    // proxy: {
+    //     '*': 'http://localhost:3000'
+    // }
 }
