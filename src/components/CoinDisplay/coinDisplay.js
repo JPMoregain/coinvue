@@ -5,6 +5,8 @@ import './coinDisplay.css'
 import { LinearProgress, TableContainer, TableHead, TableRow, TextField, Table, TableCell, TableBody } from '@mui/material';
 import { Container } from '@mui/system';
 import { Bookmark } from '@mui/icons-material';
+import { doc, updateDoc } from '@firebase/firestore'
+import { db } from '../../config/Fire';
 
 
 export const CoinDisplay = () => {
@@ -15,8 +17,10 @@ export const CoinDisplay = () => {
   const [watchList, setWatchList] = useState([]);
 
   // destructure props from CryptoContext to access current currency to grab API data in the correct currency
-  const { currency, symbol } = cryptoState();
+  const { currency, symbol, currentUID } = cryptoState();
   const apiEndpoint = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+
+  const currentUserDbInfo = doc(db, `userList/${currentUID}`)
 
   // fetch using apiEndpoint url
   const fetchCoins = async () => {
@@ -29,16 +33,13 @@ export const CoinDisplay = () => {
 
   // useEffect hook prevents API fetchCoin function from repeatedly spamming API calls
   useEffect(() => {
-    fetchCoins()
-  }, [currency]);
+    fetchCoins();
+    updateDoc(currentUserDbInfo, { watchlist: watchList })
+  }, [currency, watchList]);
 
   // create function that will filter the coins that are being displayed to match what the user has typed into the search field (stored in state)
   const handleSearch = () => {
     return coinData.filter(coin => coin.name.toLowerCase().includes(searchValue.toLowerCase()))
-  }
-
-  const updateWatchlist = () => {
-    
   }
 
   return (
@@ -116,10 +117,10 @@ export const CoinDisplay = () => {
                           watchList.includes(coin.name) ?
                             (<Bookmark className='watched'></Bookmark>) :
                             (<Bookmark className='notWatched' 
-                              onClick={() => console.log('hello')
-                              
-                            }>
-                              
+                              onClick={() => { 
+                                console.log('hello')
+                                setWatchList(watchList.concat(coin.name))
+                            }}>
                             </Bookmark>)
                           }
                         </TableCell>

@@ -6,13 +6,9 @@ import Login from './Forms/login'
 import Register from './Forms/register'
 import Dashboard from './Dashboard/dashboard.js'
 import Spinner from '../assets/spinner.gif'
-import CryptoContext, { cryptoState, Crypto } from '../contexts/cryptoContext';
 
 // export this class so it can be imported in to App.js
 export default class Main extends Component {
-    // consume context from context API to be able to access those global state methods and store
-    static contextType = Crypto;
-
     state = {
         // if user is 1, that means user is not logged in
         user: 1,

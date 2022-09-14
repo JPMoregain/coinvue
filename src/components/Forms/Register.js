@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './Login.css'
-import { app, auth } from '/src/config/Fire.js'
+import { auth, db } from '/src/config/Fire.js'
+import { addDoc, collection } from '@firebase/firestore'
 
 function Register() {
   // declare state
@@ -28,20 +29,22 @@ function Register() {
     setPassword(e.target.value);
   }
 
-  const register = async (e) => {
-    // prevent page from being reloaded when button is clicked
+  const register = (e) => {
     e.preventDefault();
-    try {
-        const userCredentials = await auth.createUserWithEmailAndPassword(email, password);
-        }
-    catch (e) {
-
-        if (e.code == 'auth/weak-password') setFireErrors('The password provided is too weak.');
-        else if (e.code == 'auth/invalid-email') setFireErrors('Please enter a valid email.');
-        else if (e.code =='email-already-in-use') setFireErrors('An account already exists with that email address');
-        else setFireErrors(e.message)
-    }
+    auth.createUserWithEmailAndPassword(email, password).then(cred => {
+      return db.collection('userList').doc(cred.user.uid).set({
+        watchlist: [],
+      });
+    }).then(() => {
+      // do stuff here?
+    }).catch((e) => {
+      if (e.code == 'auth/weak-password') setFireErrors('The password provided is too weak.');
+      else if (e.code == 'auth/invalid-email') setFireErrors('Please enter a valid email.');
+      else if (e.code =='email-already-in-use') setFireErrors('An account already exists with that email address');
+      else setFireErrors(e.message)
+    });
   }
+  
   // if there is an error message, store it in a const to be displayed, otherwise display null\
   let errorNotification = fireErrors ? (<div className="Error">{fireErrors}</div>) : null;
   // within return statement below, everything will automatically render
