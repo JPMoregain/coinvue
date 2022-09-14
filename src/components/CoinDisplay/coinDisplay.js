@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { cryptoState } from '../../contexts/cryptoContext';
 import axios from 'axios';
 import './coinDisplay.css'
-import { LinearProgress, TableContainer, TableHead, TableRow, TextField, Table, TableCell } from '@mui/material';
+import { LinearProgress, TableContainer, TableHead, TableRow, TextField, Table, TableCell, TableBody } from '@mui/material';
 import { Container } from '@mui/system';
 
 export const CoinDisplay = () => {
@@ -28,6 +28,11 @@ export const CoinDisplay = () => {
   useEffect(() => {
     fetchCoins()
   }, [currency]);
+
+  // create function that will filter the coins that are being displayed to match what the user has typed into the search field (stored in state)
+  const handleSearch = () => {
+    return coinData.filter(coin => coin.name.toLowerCase().includes(searchValue.toLowerCase()))
+  }
 
   return (
     <Container style={{ textAlign: 'center' }}>   
@@ -55,15 +60,13 @@ export const CoinDisplay = () => {
                 <TableHead style={{ backgroundColor: '#F4A423' }}>
                   <TableRow style={{
                     color: 'black',
-                    fontWeight: '700',
-                    border: 'none',
-                    height: '20px'
                   }}>
-                    <TableCell style={{ border: 'none' }}>Coin</TableCell>
+                    <TableCell style={{ border: 'none', fontWeight: '700'}}>Coin</TableCell>
                     {['Price', '24h Change', 'Market Cap'].map((head) => (
                       <TableCell
                         style={{
                           border: 'none',
+                          fontWeight: '700'
                         }}
                         key={head}
                         align={'right'}>
@@ -72,6 +75,9 @@ export const CoinDisplay = () => {
                     ))}
                   </TableRow>
                 </TableHead>
+                <TableBody>
+                  {handleSearch()}
+                </TableBody>
               </Table>
             )
           }
