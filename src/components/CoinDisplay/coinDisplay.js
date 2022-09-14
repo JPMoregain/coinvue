@@ -4,13 +4,15 @@ import axios from 'axios';
 import './coinDisplay.css'
 import { LinearProgress, TableContainer, TableHead, TableRow, TextField, Table, TableCell, TableBody } from '@mui/material';
 import { Container } from '@mui/system';
-import { makeStyles } from '@mui/styles'
+import { Bookmark } from '@mui/icons-material';
+
 
 export const CoinDisplay = () => {
   // initialize state to store coin data in an array, and boolean that tracks whether the api call has finished or not
   const [coinData, setCoinData] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState(false);
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState('');
+  const [watchList, setWatchList] = useState([]);
 
   // destructure props from CryptoContext to access current currency to grab API data in the correct currency
   const { currency, symbol } = cryptoState();
@@ -33,6 +35,10 @@ export const CoinDisplay = () => {
   // create function that will filter the coins that are being displayed to match what the user has typed into the search field (stored in state)
   const handleSearch = () => {
     return coinData.filter(coin => coin.name.toLowerCase().includes(searchValue.toLowerCase()))
+  }
+
+  const updateWatchlist = () => {
+    
   }
 
   return (
@@ -104,6 +110,18 @@ export const CoinDisplay = () => {
                         </TableCell>
                         <TableCell align='right'>
                           {symbol}{coin.market_cap.toLocaleString()}
+                        </TableCell>
+                        <TableCell align='right'>
+                          {
+                          watchList.includes(coin.name) ?
+                            (<Bookmark className='watched'></Bookmark>) :
+                            (<Bookmark className='notWatched' 
+                              onClick={() => console.log('hello')
+                              
+                            }>
+                              
+                            </Bookmark>)
+                          }
                         </TableCell>
                       </TableRow>
                     )

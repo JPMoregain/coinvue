@@ -5,7 +5,7 @@ import { Spin as Hamburger } from 'hamburger-react'
 import { MenuItem, Select } from '@mui/material'
 import Logo from '/src/assets/logo.png'
 import './navBar.css';
-import cryptoContext, { Crypto, cryptoState } from '../../contexts/cryptoContext';
+import { cryptoState } from '../../contexts/cryptoContext';
 
 export default function NavBar() {
   // implement useState hook to track whether navbar is expanded or not -> initial state should be false
