@@ -42,6 +42,14 @@ export const CoinDisplay = () => {
     return coinData.filter(coin => coin.name.toLowerCase().includes(searchValue.toLowerCase()))
   }
 
+  const removeFromWatchlist = (coinToRemove) => {
+    setWatchList(current => 
+      current.filter(coin => {
+        return coin !== coinToRemove
+      }),
+    )
+  };
+  
   return (
     <Container style={{ textAlign: 'center' }}>   
       <h2>Top 100 Coins By Market Cap</h2>
@@ -115,10 +123,13 @@ export const CoinDisplay = () => {
                         <TableCell align='right'>
                           {
                           watchList.includes(coin.name) ?
-                            (<Bookmark className='watched'></Bookmark>) :
+                            (<Bookmark className='watched'
+                              onClick={() => {
+                                removeFromWatchlist(coin.name)
+                              }}>
+                            </Bookmark>) :
                             (<Bookmark className='notWatched' 
                               onClick={() => { 
-                                console.log('hello')
                                 setWatchList(watchList.concat(coin.name))
                             }}>
                             </Bookmark>)
