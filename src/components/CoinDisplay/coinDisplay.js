@@ -46,7 +46,6 @@ export const CoinDisplay = () => {
     const { data } = await axios.get(apiEndpoint);
     // update coinData in state with data returned from API call
     setCoinData(data);
-    window.localStorage.setItem('coindata', data)
     setLoadingStatus(false); 
   }
 

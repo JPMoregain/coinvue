@@ -4,10 +4,13 @@ import { db } from '../../../config/Fire';
 import { doc, updateDoc, collection, getDoc } from '@firebase/firestore';
 import { cryptoState } from '../../../contexts/cryptoContext';
 import { TableContainer, TableHead, TableRow, Table, TableCell, TableBody, Container } from '@mui/material';
+import axios from 'axios';
 
 // WRITE CONDITIONAL TO RENDER SPECIFIC INFO IF USERDB DOES NOT HAVE A WATCHLIST PROPERTY
 export default function Watchlist() {
   const [dbWatchlist, setDbWatchlist] = useState('')
+  const [testdata, setCoinData] = useState([])
+  const [loadingStatus, setLoadingStatus] = useState(false);
   // import props from global context
   const { currentUID, coinData, symbol } = cryptoState();
 
@@ -20,8 +23,20 @@ export default function Watchlist() {
   });
 
   const handleSearch = () => {
-    return coinData.filter(coin => dbWatchlist.includes(coin.name))
+    if (testdata.data === undefined) return;
+    else {
+      return testdata.data.filter(coin => dbWatchlist.includes(coin.name))
+    }
   }
+
+  const getCoinData = () => {
+    axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=market_cap_desc&per_page=100&page=1&sparkline=false')
+    .then(data => setCoinData(data))
+  }
+
+  useEffect(() => {
+    getCoinData();
+  }, [])
 
   return (
     <>
@@ -52,7 +67,9 @@ export default function Watchlist() {
                 <TableBody>
                   {/* handleSearch will return the array of filtered coins, if nothing is typed in search box it will return all of the coins */}
                   {/* map each coin in the array onto a new row in the table */}
-                  {handleSearch().map(coin => {
+                  {
+                  Array.isArray(testdata.data) ?
+                  handleSearch().map(coin => {
                     // determine what will be rendered for each coin in array that is returned from handleSearch()
                     // map is overwriting each key in the array with a row and cells that will be rendered
                     return (
@@ -80,7 +97,7 @@ export default function Watchlist() {
                         </TableCell>
                       </TableRow>
                     )
-                  })}
+                  }) : null }
                 </TableBody>
               </Table>
           }
