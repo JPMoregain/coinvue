@@ -9,24 +9,18 @@ import { TableContainer, TableHead, TableRow, Table, TableCell, TableBody, Conta
 export default function Watchlist() {
   const [dbWatchlist, setDbWatchlist] = useState('')
   // import props from global context
-  const { currentUID, coinData } = cryptoState();
+  const { currentUID, coinData, symbol } = cryptoState();
 
   // find currentUID in database and determine whether there are any coins stored in their watchlist
-
-  const currentUserDbInfo = doc(db, `userList/${currentUID}`)
-
-  const getUserData = async () => {
-    const result = await getDoc(currentUserDbInfo);
-    const userData = result.data();
+  const query = db.collection('userList').doc(window.localStorage.getItem('uid'))
+  
+  query.get().then(data => { 
+    const userData = data.data();
     setDbWatchlist(userData.watchlist);
-  }
-
-  useEffect(() => {
-    getUserData();
-  }, [])
+  });
 
   const handleSearch = () => {
-    return coinData.filter(coin => dbWatchlist.includes(coin))
+    return coinData.filter(coin => dbWatchlist.includes(coin.name))
   }
 
   return (
@@ -42,7 +36,7 @@ export default function Watchlist() {
                     color: 'black',
                   }}>
                     <TableCell style={{ border: 'none', fontWeight: '700'}}>Coin</TableCell>
-                    {['Ticker', 'Price', '24h Change', 'Market Cap', 'Watch'].map((head) => (
+                    {['Ticker', 'Price', '24h Change', 'Market Cap'].map((head) => (
                       <TableCell
                         style={{
                           border: 'none',
@@ -83,21 +77,6 @@ export default function Watchlist() {
                         </TableCell>
                         <TableCell align='right'>
                           {symbol}{coin.market_cap.toLocaleString()}
-                        </TableCell>
-                        <TableCell align='right'>
-                          {
-                          watchList.includes(coin.name) ?
-                            (<Bookmark className='watched'
-                              onClick={() => {
-                                removeFromWatchlist(coin.name)
-                              }}>
-                            </Bookmark>) :
-                            (<Bookmark className='notWatched' 
-                              onClick={() => { 
-                                setWatchList(watchList.concat(coin.name))
-                            }}>
-                            </Bookmark>)
-                          }
                         </TableCell>
                       </TableRow>
                     )

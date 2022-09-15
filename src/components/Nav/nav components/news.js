@@ -4,7 +4,6 @@ import NavBar from '../navBar'
 function News() {
     return (
         <>
-            <p>News</p>
             <NavBar />
         </>
     )

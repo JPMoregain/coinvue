@@ -19,7 +19,6 @@ export const CoinDisplay = () => {
   const { currency, symbol, currentUID, coinData, setCoinData } = cryptoState();
   
   const currentUserDbInfo = doc(db, 'userList', currentUID)
-  let currentUserWatchlist;
 
   const getUserData = async () => {
     const result = await getDoc(currentUserDbInfo);
@@ -37,6 +36,9 @@ export const CoinDisplay = () => {
   const apiEndpoint = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
 
 
+  useEffect(() => {
+    window.localStorage.setItem('uid', currentUID)
+  }, [currentUID])
 
   // fetch using apiEndpoint url
   const fetchCoins = async () => {
@@ -44,6 +46,7 @@ export const CoinDisplay = () => {
     const { data } = await axios.get(apiEndpoint);
     // update coinData in state with data returned from API call
     setCoinData(data);
+    window.localStorage.setItem('coindata', data)
     setLoadingStatus(false); 
   }
 

@@ -16,7 +16,9 @@ const CryptoContext = ({ children }) => {
   const [currentUID, setCurrentUID] = useState('');
   const [coinData, setCoinData] = useState([]);
 
-  auth.onAuthStateChanged(user => setCurrentUID(user.uid))
+  useEffect(() => {
+    auth.onAuthStateChanged(user => setCurrentUID(user.uid))
+  }, [])
 
   // whenever this component is rendered, invoke useEffect hook to check state and display the appropriate currency and symbol
   useEffect(() => {
