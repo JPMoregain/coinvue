@@ -84,6 +84,9 @@ export const CoinDisplay = () => {
           "& .MuiOutlinedInput-root": {
             "& > fieldset": { borderColor: "white" },
           },
+          input: {
+            color: "white"
+          }
         }}
         label='Search By Coin Name' variant='outlined' style={{marginBottom: 20, width: '100%'}}
         // add onChange event listener to update state to hold whatever user has typed in
