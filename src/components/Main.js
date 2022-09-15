@@ -6,6 +6,7 @@ import Login from './Forms/login'
 import Register from './Forms/register'
 import Dashboard from './Dashboard/dashboard.js'
 import Spinner from '../assets/spinner.gif'
+import Logo from '../assets/loginLogo.png'
 
 // export this class so it can be imported in to App.js
 export default class Main extends Component {
@@ -63,6 +64,7 @@ export default class Main extends Component {
             return (
                 <>
                     {/* import forms into mainblock with styling*/}
+                    <img src={Logo} alt='Logo' className='brandLogo'></img>
                     <div className='mainBlock'>
                         {/* render either login or register form depending on formSwitcher boolean saved in state */}
                         {display}
