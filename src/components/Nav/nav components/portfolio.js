@@ -1,7 +1,7 @@
 import React from 'react'
 import NavBar from '../navBar'
 
-function Bitcoin() {
+function Portfolio() {
     return (
         <>
             <p>Bitcoin</p>
@@ -10,4 +10,4 @@ function Bitcoin() {
     )
 }
 
-export default Bitcoin
+export default Portfolio;

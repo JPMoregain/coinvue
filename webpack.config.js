@@ -6,8 +6,18 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'build'),
+        publicPath: '/',
         filename: 'bundle.js'
     },
+    mode: process.env.NODE_ENV,
+    devServer: {
+        proxy: {
+          '*': {
+            target: 'http://localhost:3000',
+            secure: false,
+          },
+        },
+      },
     plugins: [
         new HTMLWebpackPlugin({
             template: './src/index.html'
@@ -39,8 +49,4 @@ module.exports = {
               }
         ]
     },
-    // UNCOMMENT PROXY AND CONFIGURE ONCE BACKEND IS CONNECTED
-    // proxy: {
-    //     '*': 'http://localhost:3000'
-    // }
 }

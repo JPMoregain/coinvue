@@ -54,7 +54,7 @@
     width: 100%;
     height: 60px;
     display: flex;
-    box-shadow: 0 2px 2px 2px rgba(9, 9, 9, 0.23);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0.19);
     background-color: #fff;
     align-items: center;
     position: relative;

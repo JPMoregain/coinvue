@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Main from './components/main';
 import { Route, Routes } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
-import Bitcoin from './components/Nav/nav components/bitcoin.js'
+import Portfolio from './components/Nav/nav components/portfolio.js'
 import Watchlist from './components/Nav/nav components/watchlist.js'
 import News from './components/Nav/nav components/news';
 import './app.css'
@@ -13,7 +13,7 @@ class App extends Component {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<Main />} />
-                    <Route path='/bitcoin' element={<Bitcoin />} />
+                    <Route path='/portfolio' element={<Portfolio />} />
                     <Route path='/watchlist' element={<Watchlist />} />
                     <Route path='/news' element={<News />} />
                 </Routes>

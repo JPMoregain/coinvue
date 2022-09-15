@@ -51,7 +51,7 @@ export default function NavBar() {
         isNavExpanded ? 'nav-menu expanded' : 'nav-menu'}>
         <ul>
           <li>
-            <Link to='/bitcoin'>Bitcoin</Link>
+            <Link to='/portfolio'>Portfolio</Link>
           </li>
           <li>
             <Link to='/watchlist'>Watchlist</Link>

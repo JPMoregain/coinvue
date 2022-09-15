@@ -19,12 +19,13 @@ const app = express();
  /**
  * handle requests for static files
  */
-app.use('/assets', express.static(path.join(__dirname, '../client/assets')));
+app.use('/assets', express.static(path.join(__dirname, 'build')));
 
 // route handler to respond with main app
 
 app.get('/', (req,res) => {
-    return res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
+    // console.log('hello')
+    return res.status(200).sendFile(path.resolve(__dirname, '../src/index.html'));
   });
 
 // catch-all route handler for any requests to an unknown route

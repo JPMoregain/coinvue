@@ -13,7 +13,8 @@ const CryptoContext = ({ children }) => {
   // set default state to have currency of USD and symbol of $
   const [currency, setCurrency] = useState('USD');
   const [symbol, setSymbol] = useState('$');
-  const [currentUID, setCurrentUID] = useState('')
+  const [currentUID, setCurrentUID] = useState('');
+  const [coinData, setCoinData] = useState([]);
 
   auth.onAuthStateChanged(user => setCurrentUID(user.uid))
 
@@ -28,7 +29,7 @@ const CryptoContext = ({ children }) => {
   return (
     // pass state variables as props to children that are rendered, so they will be able to access state globally
     // we are passing the value as an object, so it will need to be deconstructed to access each specific part in the component that is importing the cryptoState
-    <Crypto.Provider value={{ currency, symbol, setCurrency, currentUID }}>
+    <Crypto.Provider value={{ currency, symbol, setCurrency, currentUID, coinData, setCoinData }}>
       {children}
     </Crypto.Provider>
   )

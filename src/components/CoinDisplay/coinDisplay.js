@@ -11,13 +11,12 @@ import { db } from '../../config/Fire';
 
 export const CoinDisplay = () => {
   // initialize state to store coin data in an array, and boolean that tracks whether the api call has finished or not
-  const [coinData, setCoinData] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [watchList, setWatchList] = useState([]);
 
   // destructure props from CryptoContext to access current currency to grab API data in the correct currency
-  const { currency, symbol, currentUID } = cryptoState();
+  const { currency, symbol, currentUID, coinData, setCoinData } = cryptoState();
   const apiEndpoint = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
 
   const currentUserDbInfo = doc(db, `userList/${currentUID}`)
@@ -34,8 +33,11 @@ export const CoinDisplay = () => {
   // useEffect hook prevents API fetchCoin function from repeatedly spamming API calls
   useEffect(() => {
     fetchCoins();
+  }, [currency]);
+
+  useEffect(() => {
     updateDoc(currentUserDbInfo, { watchlist: watchList })
-  }, [currency, watchList]);
+  }, [watchList])
 
   // create function that will filter the coins that are being displayed to match what the user has typed into the search field (stored in state)
   const handleSearch = () => {
