@@ -5,7 +5,7 @@ import './coinDisplay.css'
 import { LinearProgress, TableContainer, TableHead, TableRow, TextField, Table, TableCell, TableBody } from '@mui/material';
 import { Container } from '@mui/system';
 import { Bookmark } from '@mui/icons-material';
-import { doc, updateDoc } from '@firebase/firestore'
+import { doc, updateDoc, getDoc } from '@firebase/firestore'
 import { db } from '../../config/Fire';
 
 
@@ -14,12 +14,29 @@ export const CoinDisplay = () => {
   const [loadingStatus, setLoadingStatus] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [watchList, setWatchList] = useState([]);
-
+  const [hasLoaded, setHasLoaded] = useState(false)
   // destructure props from CryptoContext to access current currency to grab API data in the correct currency
   const { currency, symbol, currentUID, coinData, setCoinData } = cryptoState();
+  
+  const currentUserDbInfo = doc(db, 'userList', currentUID)
+  let currentUserWatchlist;
+
+  const getUserData = async () => {
+    const result = await getDoc(currentUserDbInfo);
+    if (result) {
+        const userData = result.data();
+        setWatchList(userData.watchlist);
+        setHasLoaded(true);
+      }
+  }
+
+  useEffect(() => {
+    getUserData();
+  }, [])
+
   const apiEndpoint = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
 
-  const currentUserDbInfo = doc(db, `userList/${currentUID}`)
+
 
   // fetch using apiEndpoint url
   const fetchCoins = async () => {
@@ -36,7 +53,10 @@ export const CoinDisplay = () => {
   }, [currency]);
 
   useEffect(() => {
-    updateDoc(currentUserDbInfo, { watchlist: watchList })
+    if (hasLoaded === true) {
+      updateDoc(currentUserDbInfo, { watchlist: watchList })
+    }
+    else return;
   }, [watchList])
 
   // create function that will filter the coins that are being displayed to match what the user has typed into the search field (stored in state)

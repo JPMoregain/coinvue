@@ -3,6 +3,7 @@ import NavBar from '../navBar';
 import { db } from '../../../config/Fire';
 import { doc, updateDoc, collection, getDoc } from '@firebase/firestore';
 import { cryptoState } from '../../../contexts/cryptoContext';
+import { TableContainer, TableHead, TableRow, Table, TableCell, TableBody, Container } from '@mui/material';
 
 // WRITE CONDITIONAL TO RENDER SPECIFIC INFO IF USERDB DOES NOT HAVE A WATCHLIST PROPERTY
 export default function Watchlist() {
@@ -24,29 +25,15 @@ export default function Watchlist() {
     getUserData();
   }, [])
 
-  // PICK BACK UP HERE ***//
   const handleSearch = () => {
-    return coinData.filter(coin => coin.name.toLowerCase().includes(searchValue.toLowerCase()))
+    return coinData.filter(coin => dbWatchlist.includes(coin))
   }
-  //*******************************************SDFSDA:LFKJALFSKJ */
-  
+
   return (
     <>
       <NavBar />
       <Container style={{ textAlign: 'center' }}>   
-      <h2>Top 100 Coins By Market Cap</h2>
-      <TextField
-        // custom styling for color and outline color
-        sx={{
-          "& .MuiInputLabel-root": {color: 'white'},//styles the label
-          "& .MuiOutlinedInput-root": {
-            "& > fieldset": { borderColor: "white" },
-          },
-        }}
-        label='Search By Coin Name' variant='outlined' style={{marginBottom: 20, width: '100%'}}
-        // add onChange event listener to update state to hold whatever user has typed in
-        onChange={(e) => setSearchValue(e.target.value)}/>
-
+      <h2>Your Watchlist</h2>
         <TableContainer>
           {
               <Table>

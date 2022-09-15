@@ -23,9 +23,9 @@ app.use('/assets', express.static(path.join(__dirname, 'build')));
 
 // route handler to respond with main app
 
-app.get('/', (req,res) => {
+app.get('/*', (req,res) => {
     // console.log('hello')
-    return res.status(200).sendFile(path.resolve(__dirname, '../src/index.html'));
+    return res.status(200).sendFile(path.resolve(__dirname, '../build/index.html'));
   });
 
 // catch-all route handler for any requests to an unknown route

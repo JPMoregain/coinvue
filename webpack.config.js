@@ -11,6 +11,7 @@ module.exports = {
     },
     mode: process.env.NODE_ENV,
     devServer: {
+        historyApiFallback: true,
         proxy: {
           '*': {
             target: 'http://localhost:3000',
