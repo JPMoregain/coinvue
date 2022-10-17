@@ -20,6 +20,8 @@ jobs:
         uses: actions/setup-node@v3
       - name: Install dependencies
         run: npm ci
+      - name: Install DEVisible package
+        run: npm i -D devisible
       - name: Run DEVisible NPM package
         env:
           API_KEY: ${{ secrets.devisibleKey }}
