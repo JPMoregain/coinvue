@@ -14,12 +14,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
       - name: Install dependencies
         run: npm ci
       - name: Run DEVisible NPM package
-      - shell: bash
         env:
           API_KEY: ${{ secrets.devisibleKey }}
         run: |
