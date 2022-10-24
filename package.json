@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "concurrently \"NODE_ENV=development webpack-dev-server --config webpack.config.js --open --hot \" \" nodemon ./server/server.js\"",
-    "build": "NODE_ENV=production webpack"
+    "build": "cross-env NODE_ENV=production webpack"
   },
   "nodemonConfig": {
     "ignore": [
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/JPMoregain/coinvue#readme",
   "dependencies": {
+    "devisible": "^0.0.3",
     "express": "^4.18.1",
     "firebase": "^9.9.4",
     "react": "^18.2.0",
